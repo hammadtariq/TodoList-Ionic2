@@ -12,5 +12,5 @@
     <ion-label>{{item.name}}</ion-label>
     <ion-checkbox [checked]="item.status" (click)="itemCompleted(i)"></ion-checkbox>
   </ion-item>
-
+  <button fab fab-bottom fab-right style="font-size:20px;" (click)="addTodo()">+</button>
 </ion-content>

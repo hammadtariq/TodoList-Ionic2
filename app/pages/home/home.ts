@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {Alert, NavController} from 'ionic-angular';
 import {DetailPage} from './../detail/detail';
 
 @Component({
@@ -19,6 +19,37 @@ export class HomePage {
     this.navController.push(DetailPage,{obj:this.todos[index]});
   }
 
-
-
+  addTodo(){
+    this.doPrompt()    
+  }
+  
+  doPrompt(){
+    let prompt = Alert.create({
+      title: 'Todo',
+      message: "add a todo",
+      inputs: [
+        {
+          name: 'todo',
+          placeholder: 'enter text here ...'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            console.log('Saved clicked');
+            this.todos.push({name:data.todo,status:false})
+          }
+        }
+      ]
+    });
+    this.navController.present(prompt);
+  }
+  
 }
