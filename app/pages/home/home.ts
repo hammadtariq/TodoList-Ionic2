@@ -1,16 +1,24 @@
-import {Component} from '@angular/core';
-import {Alert, NavController} from 'ionic-angular';
+import {Component, OnInit} from '@angular/core';
+import {AlertController, NavController} from 'ionic-angular';
 import {DetailPage} from './../detail/detail';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
+
 
 @Component({
   templateUrl: 'build/pages/home/home.html',
 })
 
-export class HomePage {
+export class HomePage implements OnInit {
   todos:Object[] = [];
-
-  constructor(private navController: NavController) {
+  items:FirebaseListObservable<any[]>;
+  
+  constructor(private alertController: AlertController, private navController: NavController, private af:AngularFire) {
     this.todos = [{name:"item1",status:false},{name:"item2",status:true},{name:"item3",status:true}];
+  }
+
+  ngOnInit(){
+      this.items = this.af.database.list('')
+      console.log("data: ",this.items)
   }
 
   itemCompleted(index){
@@ -24,7 +32,7 @@ export class HomePage {
   }
   
   doPrompt(){
-    let prompt = Alert.create({
+    let prompt = this.alertController.create({
       title: 'Todo',
       message: "add a todo",
       inputs: [
@@ -49,7 +57,7 @@ export class HomePage {
         }
       ]
     });
-    this.navController.present(prompt);
+    prompt.present();
   }
   
 }
